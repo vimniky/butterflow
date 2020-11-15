@@ -2,12 +2,12 @@
 // Do not modify this file!!!!!!!!!
 
 import 'egg';
-import ExportFile from '../../../app/controller/file';
+import ExportButterflow from '../../../app/controller/butterflow';
 import ExportHome from '../../../app/controller/home';
 
 declare module 'egg' {
   interface IController {
-    file: ExportFile;
+    butterflow: ExportButterflow;
     home: ExportHome;
   }
 }
