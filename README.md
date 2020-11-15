@@ -1,6 +1,3 @@
-# hackernews-async-ts
-
-[Hacker News](https://news.ycombinator.com/) showcase using typescript && egg
 
 ## QuickStart
 
@@ -29,5 +26,5 @@ $ npm start
 
 ### Requirement
 
-- Node.js 8.x
-- Typescript 2.8+
+- Node.js 15.x
+- Typescript 3.x +
