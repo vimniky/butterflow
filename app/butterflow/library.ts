@@ -1,4 +1,4 @@
-export default class Library<K extends string, V> {
+export default class Library<K extends string | symbol, V> {
   protected data: Partial<Record<K, V>> = {};
 
   constructor(data: Partial<Record<K, V>> = {}) {
