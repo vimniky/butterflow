@@ -1,5 +1,10 @@
 {
-  "extends": "eslint-config-egg/typescript",
+  "extends": [
+    "eslint-config-egg/typescript",
+    "tslint-config-prettier",
+    "eslint-config-prettier"
+  ],
+  "plugins": ["prettier"],
   "parserOptions": {
     "project": "./tsconfig.json"
   }

@@ -26,17 +26,21 @@
     "egg-scripts": "^2.13.0"
   },
   "devDependencies": {
-    "@types/mocha": "^8.0.3",
-    "@types/node": "^14.14.6",
+    "@types/mocha": "^8.0.4",
+    "@types/node": "^14.14.7",
     "@types/supertest": "^2.0.10",
     "autod": "^3.1.1",
     "autod-egg": "^1.1.0",
-    "egg-ci": "^1.18.0",
     "egg-bin": "^4.15.0",
+    "egg-ci": "^1.18.0",
     "egg-mock": "^4.0.1",
-    "tslib": "^2.0.3",
     "eslint": "^7.13.0",
-    "eslint-config-egg": "^8.1.2",
+    "eslint-config-egg": "^9.0.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.1.2",
+    "tslib": "^2.0.3",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^4.0.5"
   },
   "engines": {

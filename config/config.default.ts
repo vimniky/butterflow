@@ -1,12 +1,19 @@
-import { EggAppConfig, EggAppInfo, PowerPartial } from 'egg';
+import { EggAppConfig, EggAppInfo, PowerPartial } from "egg";
 
 export default (appInfo: EggAppInfo) => {
-  const config = {} as PowerPartial<EggAppConfig>;
+  const config: PowerPartial<EggAppConfig> = {
+    // use for cookie sign key, should change to your own and keep security
+    keys: appInfo.name + "_1604935278509_2925",
+    userDir: ".vsflow",
+    security: {
+      csrf: false,
+    },
 
-  // use for cookie sign key, should change to your own and keep security
-  config.keys = appInfo.name + '_1604935278509_2925';
-
-  return {
-    ...config,
+    // middleware: ["gzip"],
+    // gzip: {
+    //   threshold: 1024,
+    // },
   };
+
+  return config;
 };
