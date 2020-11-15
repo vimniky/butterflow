@@ -1,10 +1,16 @@
 export type InjectNodeTemplateName = "Inject";
 export type FunctionTemplateName = "Function";
 export type DebugNodeTemplateName = "Debug";
+export type HttpInNodeTemplateName = "HttpIn";
+export type HttpOutNodeTemplateName = "HttpOut";
+export type HttpRequestNodeTemplateName = "HttpRequest";
 export type NodeTemplateName =
   | InjectNodeTemplateName
   | FunctionTemplateName
-  | DebugNodeTemplateName;
+  | DebugNodeTemplateName
+  | HttpInNodeTemplateName
+  | HttpOutNodeTemplateName
+  | HttpRequestNodeTemplateName;
 
 export interface NodeTemplate {
   name: NodeTemplateName;
@@ -25,17 +31,34 @@ export interface DebugNodeTemplate extends NodeTemplate {
   name: DebugNodeTemplateName;
 }
 
+type HttpMethods = "GET" | "POST" | "HEAD";
+export interface HttpInNodeTemplate extends NodeTemplate {
+  name: HttpInNodeTemplateName;
+  // config: {
+  //   method: HttpMethods;
+  //   url: string;
+  //   headers?: any;
+  //   payload?: any;
+  // };
+}
+export interface HttpOutNodeTemplate extends NodeTemplate {
+  name: HttpOutNodeTemplateName;
+  // config: {
+  //   headers?: any;
+  //   payload?: any;
+  // };
+}
+
 export type NodeId = string;
 export interface Node {
   id: NodeId;
-  name: string;
+  name?: string;
   templateName: NodeTemplateName;
   code?: string | CallableFunction;
   descriptions?: string[];
-  env?: any;
   input?: any | any[];
   output?: any | any[];
   prev?: string | string[];
   next?: string | string[];
-  conditions?: any[];
+  selectors?: Record<string, any>;
 }

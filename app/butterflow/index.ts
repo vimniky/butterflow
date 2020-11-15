@@ -10,13 +10,15 @@ export {
 } from "./types";
 
 import {
+  NodeId,
+  Node,
+  NodeTemplateName,
+  NodeTemplate,
   InjectNodeTemplate,
   FunctionNodeTemplate,
   DebugNodeTemplate,
-  NodeTemplateName,
-  NodeTemplate,
-  NodeId,
-  Node,
+  HttpInNodeTemplate,
+  HttpOutNodeTemplate,
 } from "./types";
 
 import Library from "./library";
@@ -30,11 +32,19 @@ export const func: FunctionNodeTemplate = {
 };
 export const debug: DebugNodeTemplate = {
   name: "Debug",
-  code: (input, { $getSelf }) => {
-    const { type, id } = $getSelf();
-    console.log(`[${type} ${id}] : ${input}`);
+  code: (input, { $getNode }) => {
+    const { type, id } = $getNode();
+    console.log(`[${type || "Unnamed"} ${id}] : `, input);
     return input;
   },
+};
+
+export const httpIn: HttpInNodeTemplate = {
+  name: "HttpIn",
+};
+
+export const httpOut: HttpOutNodeTemplate = {
+  name: "HttpOut",
 };
 
 export type NodeTemplateLibrary = Library<NodeTemplateName, NodeTemplate>;
@@ -44,4 +54,6 @@ export const nodeTemplateLibrary = new Library<NodeTemplateName, NodeTemplate>({
   Inject: inject,
   Function: func,
   Debug: debug,
+  HttpIn: httpIn,
+  HttpOut: httpOut,
 });

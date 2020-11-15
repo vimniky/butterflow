@@ -1,13 +1,18 @@
 import { createContext, runInContext } from "vm";
+import { Context } from "egg";
 
 import { NodeLibrary, nodeTemplateLibrary, NodeId } from "./index";
 import { nodeLibrary as mockNodeLibrary } from "./mock";
 
-const runFlow = async (
-  id: NodeId,
-  payload: any,
-  nodeLibrary: NodeLibrary = mockNodeLibrary
-) => {
+type RunFlowOptions = {
+  nodeLibrary?: NodeLibrary;
+  ctx?: Context;
+};
+
+const runFlow = async (id: NodeId, payload: any, options?: RunFlowOptions) => {
+  options = options || {};
+
+  const { nodeLibrary = mockNodeLibrary } = options;
   const node = nodeLibrary.getItem(id);
 
   if (!node) {
@@ -16,17 +21,9 @@ const runFlow = async (
 
   const { templateName } = node;
   node.input = payload;
-  const result = await new Promise((resolve, reject) => {
-    const env = {
-      ...node.env,
-      setTimeout: (callback, ...args) => setTimeout(callback, ...args),
-      setInterval: (callback, ...args) => setInterval(callback, ...args),
-      $input: payload,
-      $getNode: () => node,
-      $resolve: (value) => resolve(value),
-      $reject: (reason) => reject(reason),
-    };
 
+  const result = await new Promise(async (resolve, reject) => {
+    let output: any = payload;
     const nodeTemplate = nodeTemplateLibrary.getItem(templateName);
 
     if (!nodeTemplate) {
@@ -35,19 +32,25 @@ const runFlow = async (
 
     // Run code/function in node template
     if (nodeTemplate.code) {
-      env.$input = nodeTemplate.code(node.input, { $getSelf: () => node });
+      output = nodeTemplate.code(node.input, { $getNode: () => node });
     }
 
     if (!node.code) {
-      env.$resolve(env.$input);
+      resolve(output);
+      return;
     }
 
+    const env = {
+      $input: output,
+      setTimeout: (callback, ...args) => setTimeout(callback, ...args),
+      setInterval: (callback, ...args) => setInterval(callback, ...args),
+      $getNode: () => node,
+      $resolve: (value) => resolve(value),
+      $reject: (reason) => reject(reason),
+    };
     // Live evaluate user inputted code
     createContext(env);
     const code = `
-      setTimeout(() => {
-        console.log('timeout');
-      }, 10);
       const res = (function () {
         ${node.code}
       })();
@@ -58,17 +61,22 @@ const runFlow = async (
 
   node.output = result;
 
-  if (!node.next || !node.next.length) return;
+  if (!node.next || !node.next.length) return result;
 
   const promises: Promise<unknown>[] = [];
   for (let i = 0; i < node.next.length; i++) {
     const nextNodeId = node.next[i];
-    const p = runFlow(nextNodeId, result);
+    const p = runFlow(nextNodeId, result, options);
     promises.push(p);
   }
 
-  await Promise.all(promises);
-  return nodeLibrary.rawData;
+  const res = await Promise.all(promises);
+
+  if (res.length === 1) {
+    return res[0];
+  }
+
+  return res;
 };
 
 export default runFlow;

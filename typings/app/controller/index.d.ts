@@ -2,12 +2,16 @@
 // Do not modify this file!!!!!!!!!
 
 import 'egg';
-import ExportButterflow from '../../../app/controller/butterflow';
 import ExportHome from '../../../app/controller/home';
+import ExportButterflowEvent from '../../../app/controller/butterflow/event';
+import ExportButterflowHttp from '../../../app/controller/butterflow/http';
 
 declare module 'egg' {
   interface IController {
-    butterflow: ExportButterflow;
     home: ExportHome;
+    butterflow: {
+      event: ExportButterflowEvent;
+      http: ExportButterflowHttp;
+    }
   }
 }

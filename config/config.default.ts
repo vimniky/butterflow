@@ -4,7 +4,8 @@ export default (appInfo: EggAppInfo) => {
   const config: PowerPartial<EggAppConfig> = {
     // use for cookie sign key, should change to your own and keep security
     keys: appInfo.name + "_1604935278509_2925",
-    userDir: ".vsflow",
+    userDir: ".butterflow",
+    butterflowPrefix: "/butterflow/",
     security: {
       csrf: false,
     },

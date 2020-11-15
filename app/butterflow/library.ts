@@ -1,12 +1,12 @@
 export default class Library<K extends string, V> {
-  private data: Partial<Record<K, V>> = {};
+  protected data: Partial<Record<K, V>> = {};
 
   constructor(data: Partial<Record<K, V>> = {}) {
     this.data = data;
   }
 
   get rawData() {
-    return this.data;
+    return { ...this.data };
   }
 
   exists(key: K): boolean {
@@ -35,7 +35,7 @@ export default class Library<K extends string, V> {
     return true;
   }
 
-  unRegisterAll(keys: K[]): boolean[] {
-    return keys.map((key) => this.unRegister(key));
+  clear() {
+    this.data = {};
   }
 }
