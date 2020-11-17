@@ -31,7 +31,7 @@ export interface DebugNodeTemplate extends NodeTemplate {
   name: DebugNodeTemplateName;
 }
 
-type HttpMethods = "GET" | "POST" | "HEAD";
+export type HttpMethods = "GET" | "POST" | "HEAD";
 export interface HttpInNodeTemplate extends NodeTemplate {
   name: HttpInNodeTemplateName;
   // config: {

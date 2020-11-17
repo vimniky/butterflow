@@ -10,6 +10,7 @@ export default (app: Application) => {
     `${butterflowPrefix}/event`,
     controller.butterflow.event.dispatch
   );
+  router.post(`${butterflowPrefix}/run`, controller.butterflow.event.run);
   router.get(`${butterflowPrefix}/http/*`, controller.butterflow.http.get);
   router.post(`${butterflowPrefix}/http/*`, controller.butterflow.http.post);
 };

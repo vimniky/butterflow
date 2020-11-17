@@ -58,11 +58,11 @@ const httpFlow: Node[] = [
 ];
 
 export const nodeLibrary = new NodeLibrary();
-nodeList.forEach((fun) => {
-  nodeLibrary.register(fun.id, fun);
+nodeList.forEach((node) => {
+  nodeLibrary.register(node.id, node);
 });
 
 export const httpNodeLibrary = new NodeLibrary();
-httpFlow.forEach((fun) => {
-  httpNodeLibrary.register(fun.id, fun);
+httpFlow.forEach((node) => {
+  httpNodeLibrary.register(node.id, node);
 });
