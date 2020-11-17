@@ -58,6 +58,8 @@ export interface Node {
   descriptions?: string[];
   input?: any | any[];
   output?: any | any[];
+  inputOnly?: boolean;
+  outputOnly?: boolean;
   prev?: string | string[];
   next?: string | string[];
   selectors?: Record<string, any>;
